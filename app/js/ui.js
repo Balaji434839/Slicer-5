@@ -1,7 +1,3 @@
-'use strict';
-
-let viewport = require('./viewport.js');
-
 function disableButtons()
 {
     document.getElementById("slice").disabled = true;
@@ -21,13 +17,14 @@ function setStatus(txt)
     document.getElementById("status").innerHTML = txt;
 }
 
-// Returns the scale ratio mm per stl unit
 function getStlScale()
 {
     return document.getElementById("mm").value;
 }
 
-module.exports = {'disableButtons': disableButtons,
-                  'enableButtons': enableButtons,
-                  'setStatus': setStatus,
-                  'getStlScale': getStlScale};
+export default {
+    disableButtons,
+    enableButtons,
+    setStatus,
+    getStlScale
+};

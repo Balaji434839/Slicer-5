@@ -1,11 +1,8 @@
-'use strict';
-
-let fs = require('filesaver.js');
-let JSZip = require('jszip');
-
-let viewport = require('./viewport.js');
-let printer = require('./printer.js');
-let ui = require('./ui.js');
+import { saveAs } from 'file-saver';
+import JSZip from 'jszip';
+import viewport from './viewport.js';
+import printer from './printer.js';
+import ui from './ui.js';
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -37,7 +34,7 @@ function next(i, n)
         let index = i + "";
         while (index.length < 4) index = "0" + index;
         slices.file("out" + index + ".png",
-                    png.slice(png.indexOf(',') + 1, -1),
+                    png.slice(png.indexOf(',') + 1),
                     {base64: true});
 
         if (i == n - 1)
@@ -48,11 +45,12 @@ function next(i, n)
     }
     else
     {
-        let content = zip.generate({type: 'blob', compression: 'DEFLATE'});
-        let zipName = document.getElementById("filename").value
-        fs.saveAs(content, zipName);
-        ui.setStatus("");
-        ui.enableButtons();
+        zip.generateAsync({type: 'blob', compression: 'DEFLATE'}).then(function(content) {
+            let zipName = document.getElementById("filename").value;
+            saveAs(content, zipName);
+            ui.setStatus("");
+            ui.enableButtons();
+        });
     }
 }
 

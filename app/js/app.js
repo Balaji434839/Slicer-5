@@ -1,13 +1,8 @@
-'use strict';
+import viewport from './viewport.js';
+import parseSTL from 'parse-stl';
+import './upload.js';
+import './slicer.js';
 
-let viewport = require('./viewport.js');
-let parseSTL = require('parse-stl');
-
-require('./upload.js');
-require('./slicer.js');
-var JSZip = require("jszip");
-
-// Base-64 encoded example string, or false
 let sample = false;
 
 function main()
@@ -16,10 +11,8 @@ function main()
     window.requestAnimationFrame(function() {
         if (sample)
         {
-            let buf = new Buffer(sample, 'base64');
-            let zip = new JSZip(buf);
-            let stl = new Buffer(zip.files["example.stl"].asBinary(), 'binary');
-            let mesh = parseSTL(stl);
+            let buf = new Uint8Array(sample);
+            let mesh = parseSTL(buf);
             viewport.loadMesh(mesh);
         }});
 }

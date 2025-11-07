@@ -1,9 +1,6 @@
-'use strict';
-
-let parseSTL = require('parse-stl');
-
-let viewport = require('./viewport.js');
-let ui = require('./ui.js');
+import parseSTL from 'parse-stl';
+import viewport from './viewport.js';
+import ui from './ui.js';
 
 document.getElementById("upload").onchange = function(event) {
     let fileInput = document.getElementById("upload");
@@ -15,7 +12,7 @@ document.getElementById("upload").onchange = function(event) {
     let reader = new FileReader();
 
     reader.onload = function() {
-        let buf = new Buffer(reader.result);
+        let buf = new Uint8Array(reader.result);
         let mesh = parseSTL(buf);
 
         document.getElementById("filename").value = file.name.slice(0, -4);

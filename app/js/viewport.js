@@ -1,14 +1,9 @@
-'use strict';
-
-let _ = require('underscore');
-let glslify = require('glslify')
-let glm = require('gl-matrix');
-let ch = require('convex-hull');
-
-////////////////////////////////////////////////////////////////////////////////
-
-let ui = require('./ui.js');
-let printer = require('./printer.js');
+import _ from 'underscore';
+import glslify from 'glslify';
+import * as glm from 'gl-matrix';
+import ch from 'convex-hull';
+import ui from './ui.js';
+import printer from './printer.js';
 
 let canvas = document.getElementById("canvas");
 let gl = canvas.getContext("experimental-webgl");
@@ -35,8 +30,8 @@ function makeSlice()
                  "buf": gl.createRenderbuffer()};
 
     slice.prog = makeProgram(
-        glslify(__dirname + '/../shaders/slice.vert'),
-        glslify(__dirname + '/../shaders/slice.frag'),
+        glslify('../shaders/slice.vert'),
+        glslify('../shaders/slice.frag'),
         ['model','bounds','frac','aspect'], ['v']);
 
     gl.bindTexture(gl.TEXTURE_2D, slice.tex);
@@ -271,8 +266,8 @@ function makeQuad()
 {
     let quad = {};
     quad.prog = makeProgram(
-        glslify(__dirname + '/../shaders/quad.vert'),
-        glslify(__dirname + '/../shaders/quad.frag'),
+        glslify('../shaders/quad.vert'),
+        glslify('../shaders/quad.frag'),
         ['view','tex','frac','aspect','bounds'], ['v']);
 
     quad.vert = gl.createBuffer();
@@ -293,8 +288,8 @@ function makeBase()
 {
     let base = {};
     base.prog = makeProgram(
-        glslify(__dirname + '/../shaders/base.vert'),
-        glslify(__dirname + '/../shaders/base.frag'),
+        glslify('../shaders/base.vert'),
+        glslify('../shaders/base.frag'),
         ['view', 'zmin', 'aspect'], ['v']);
 
     base.vert = gl.createBuffer();
@@ -370,8 +365,8 @@ function loadMesh(stl)
 
     // Compile shader program for mesh
     mesh.prog = makeProgram(
-        glslify(__dirname + '/../shaders/mesh.vert'),
-        glslify(__dirname + '/../shaders/mesh.frag'),
+        glslify('../shaders/mesh.vert'),
+        glslify('../shaders/mesh.frag'),
         ['view', 'model'], ['v', 'n']);
 
     // Store unique vertices
@@ -585,8 +580,10 @@ document.getElementById("mm").onchange = function(event) {
     draw();
 }
 
-module.exports = {'init': init,
-                  'loadMesh': loadMesh,
-                  'getSliceAt': getSliceAt,
-                  'getBounds': getBounds,
-                  'hasModel': hasModel};
+export default {
+    init,
+    loadMesh,
+    getSliceAt,
+    getBounds,
+    hasModel
+};
